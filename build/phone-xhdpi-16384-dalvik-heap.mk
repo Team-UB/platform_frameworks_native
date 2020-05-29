@@ -1,5 +1,6 @@
 #
-# Copyright (C) 2012 The Android Open Source Project
+# Copyright 2019 The Android Open Source Project
+# Copyright 2019 The halogenOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +15,12 @@
 # limitations under the License.
 #
 
-# Provides overrides to configure the Dalvik heap for a 2GB phone
-# 192m of RAM gives enough space for 5 8 megapixel camera bitmaps in RAM.
+# Provides overrides to configure the Dalvik heap for a 16 GiB phone
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.heapstartsize=8m \
-    dalvik.vm.heapgrowthlimit=192m \
-    dalvik.vm.heapsize=512m \
-    dalvik.vm.heaptargetutilization=0.75 \
-    dalvik.vm.heapminfree=512k \
-    dalvik.vm.heapmaxfree=8m
+    dalvik.vm.heapstartsize=32m \
+    dalvik.vm.heapgrowthlimit=448m \
+    dalvik.vm.heapsize=640m \
+    dalvik.vm.heaptargetutilization=0.4 \
+    dalvik.vm.heapminfree=16m \
+    dalvik.vm.heapmaxfree=64m

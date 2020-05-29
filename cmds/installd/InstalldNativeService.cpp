@@ -678,11 +678,13 @@ binder::Status InstalldNativeService::destroyAppData(const std::unique_ptr<std::
         if (delete_dir_contents_and_dir(path) != 0) {
             res = error("Failed to delete " + path);
         }
-        destroy_app_current_profiles(packageName, userId);
-        // TODO(calin): If the package is still installed by other users it's probably
-        // beneficial to keep the reference profile around.
-        // Verify if it's ok to do that.
-        destroy_app_reference_profile(packageName);
+        if ((flags & FLAG_CLEAR_APP_DATA_KEEP_ART_PROFILES) == 0) {
+            destroy_app_current_profiles(packageName, userId);
+            // TODO(calin): If the package is still installed by other users it's probably
+            // beneficial to keep the reference profile around.
+            // Verify if it's ok to do that.
+            destroy_app_reference_profile(packageName);
+        }
     }
     if (flags & FLAG_STORAGE_EXTERNAL) {
         std::lock_guard<std::recursive_mutex> lock(mMountsLock);
@@ -1996,6 +1998,9 @@ binder::Status InstalldNativeService::getExternalSize(const std::unique_ptr<std:
         auto obbPath = StringPrintf("%s/Android/obb",
                 create_data_media_path(uuid_, userId).c_str());
         calculate_tree_size(obbPath, &obbSize);
+        if (!(flags & FLAG_USE_QUOTA)) {
+            totalSize -= obbSize;
+        }
         ATRACE_END();
     }
 

@@ -914,6 +914,8 @@ private:
 
     bool updateMetaStateIfNeeded(int32_t keyCode, bool down);
 
+    int getAdjustedKeyCode(int keyCode);
+
     ssize_t findKeyDown(int32_t scanCode);
 
     void resetLedState();
